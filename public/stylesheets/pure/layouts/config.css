@@ -1,0 +1,36 @@
+/*
+ * -- CONTENT STYLES --
+ * This represents the content area (everything below the blue section)
+ */
+.content-wrapper {
+  top: 62px;
+}
+
+.form-cg {
+  height: 54px;
+  text-align: left;
+}
+
+.form-cg-label {
+  color: #777;
+  font-weight: normal !important;
+}
+
+.form-cg-input {
+  width: 20em !important;
+  color: #777;
+  font-weight: normal !important;
+  margin: 0 !important;
+}
+
+.submit-button {
+  text-align: left;
+}
+
+.center-content {
+  text-align: center;
+}
+
+.form-block {
+  display: inline-block;
+}
