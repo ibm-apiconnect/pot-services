@@ -10,6 +10,7 @@ var consumer_logout = require('./consumer/logout');
 var consumer_logistics = require('./consumer/logistics');
 var consumer_financing = require('./consumer/financing');
 var financing_calculate = require('./financing/calculate');
+var shipping_calculate = require('./shipping/calculate');
 
 /* Index Routes */
 router.route('/')
@@ -24,5 +25,8 @@ router.use('/login', consumer_login);
 router.use('/logout', consumer_logout);
 router.use('/logistics', consumer_logistics);
 router.use('/financing', consumer_financing);
+
+/* Shipping Calculator Routes */
+router.use('/calculate', shipping_calculate);
 
 module.exports = router;
