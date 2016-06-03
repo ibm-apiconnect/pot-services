@@ -3,7 +3,7 @@ var router = express.Router();
 var xml2js = require('xml2js');
 
 /* Calculate Financing Rate from SOAP input */
-router.post('/', function (req, res) {
+router.post('/calculate', function (req, res) {
   console.log(req.body);
 
   var parseString = require('xml2js').parseString;

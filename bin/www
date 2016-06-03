@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-var open = require('open');
 var app = require('../app');
 var debug = require('debug')('consumer:server');
 var http = require('http');
@@ -87,11 +86,4 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-
-  if (process.env.NODE_ENV != 'bluemix') {
-    // open the browser and navigate to the home page
-    var isLinux = /^linux/.test(process.platform);
-    if (isLinux) open('http://127.0.0.1:' + addr.port, "google-chrome");
-    else open('http://127.0.0.1:' + addr.port);
-  }
 }

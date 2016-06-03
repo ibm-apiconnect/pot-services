@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res) {
+router.get('/calculate', function(req, res) {
   var company = req.query.company;
   var from_zip = parseInt(req.query.from_zip);
   var to_zip = parseInt(req.query.to_zip);
