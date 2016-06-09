@@ -28,7 +28,7 @@ router.route('/calculate')
   });
 
 router.route('/schema')
-  .get('/schema', function (req, res) {
+  .get(function (req, res) {
     var schema = {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "id": "http://jsonschema.net",
