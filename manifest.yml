@@ -10,3 +10,4 @@ applications:
   memory: 512M
 env:
   NODE_ENV: bluemix
+  DEBUG: services:*

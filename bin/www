@@ -5,8 +5,15 @@
  */
 var app = require('../app');
 var debug = require('debug')('services:server');
+var http = require('http');
 var https = require('https');
 var fs = require('fs');
+
+/**
+ * Get node_env from environment variables
+ */
+var node_env = (process.env.NODE_ENV || "local");
+debug("NODE_ENV = " + node_env);
 
 /**
  * Get port from environment and store in Express.
@@ -23,7 +30,12 @@ var serverOptions = {
   key: fs.readFileSync('./bin/certs/key.pem'),
   cert: fs.readFileSync('./bin/certs/cert.pem')
 };
-var server = https.createServer(serverOptions, app);
+var server;
+if (node_env == "bluemix") {
+  server = http.createServer(app);
+} else {
+  server = https.createServer(serverOptions, app);
+}
 
 /**
  * Listen on provided port, on all network interfaces.
