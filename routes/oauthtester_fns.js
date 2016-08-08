@@ -171,8 +171,6 @@ module.exports.clientSetupFormSubmit = function(req, res) {
 module.exports.apiReqSubmit = function(req, res) {
 
 	console.log("setting request options");
-
-	console.log("req var: " + JSON.stringify(req));
 	
 	var req_options;
 	
@@ -185,6 +183,9 @@ module.exports.apiReqSubmit = function(req, res) {
 				strictSSL: false,
 				auth: {
 					bearer: req.body.oauth_access_token
+				},
+				headers: {
+					'X-IBM-Client-Id': global.sess.client_id
 				}
 			};
 			break;
@@ -197,6 +198,9 @@ module.exports.apiReqSubmit = function(req, res) {
 						strictSSL: false,
 						auth: {
 							bearer: req.body.oauth_access_token
+						},
+						headers: {
+							'X-IBM-Client-Id': global.sess.client_id
 						},
 					  body: JSON.parse(req.body.req_body),
 					  json: true
@@ -211,7 +215,8 @@ module.exports.apiReqSubmit = function(req, res) {
 							bearer: req.body.oauth_access_token
 						},
 					  headers: {
-					  	'Content-Type': req.body.req_content_type
+					  	'Content-Type': req.body.req_content_type,
+							'X-IBM-Client-Id': global.sess.client_id
 					  },
 					  body: req.body.req_body
 					};

@@ -75,11 +75,6 @@
 	}
 	
 	if (client_type) {
-		if (!window.location.pathname.includes('client_cred')) {
-			client_type.value = 'Public';
-			client_secret.hidden = true;
-		}
-
 		client_type.onchange = function (e) {
 			if (client_type.value == 'Confidential') {
 				client_secret.hidden = false;
