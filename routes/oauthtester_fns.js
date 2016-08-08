@@ -85,11 +85,13 @@ function formatTokenRequest (tokenUrl, roId, roPwd, clientType, grantType, clien
 *************************************************************************/
 
 module.exports.displayIndex = function (req, res) {
-	// Reset the session
-	session.clear(req);
-	
-	// Show the index page
-	res.render('index.jade', {header: 'IBM API Connect', subHeader: 'OAuth Token Tool'});
+	// // Reset the session
+	// session.clear(req);
+	//
+	// // Show the index page
+	// res.render('index.jade', {header: 'IBM API Connect', subHeader: 'OAuth Token Tool'});
+
+	res.redirect('../oauthtester/ro_cred');
 };
 
 module.exports.displayForm = function (req, res) {
