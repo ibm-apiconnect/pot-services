@@ -112,7 +112,7 @@ module.exports.displayForm = function (req, res) {
 			res.render('clientSetupForm.jade', {header: 'Implicit', subHeader: 'Grant Type', formType: 'implicit'});
 			break;
 		default:
-			res.render('index.jade', {header: 'IBM API Management', subHeader: 'OAuth Token Tool'});
+			res.render('index.jade', {header: 'IBM API Connect', subHeader: 'OAuth Token Tool'});
 			break;
 	}
 };
@@ -146,7 +146,8 @@ module.exports.clientSetupFormSubmit = function(req, res) {
 					req.body.req_scope);
 					
 		// Set up the api request URL basd on what we know
-		var apiReqUrl = req.body.oauth_token_url.replace("oauth/token", "<resource>?client_id=") + req.body.client_id;
+		//var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "<resource>?client_id=") + req.body.client_id;
+		var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "inventory/items");
 					
 		// Send the Token Request to APIM
 		request.post(tokenReqOptions, function(err,httpResponse,body){
@@ -170,6 +171,8 @@ module.exports.clientSetupFormSubmit = function(req, res) {
 module.exports.apiReqSubmit = function(req, res) {
 
 	console.log("setting request options");
+
+	console.log("req var: " + JSON.stringify(req));
 	
 	var req_options;
 	
@@ -181,8 +184,8 @@ module.exports.apiReqSubmit = function(req, res) {
 				url: req.body.req_api_url,
 				strictSSL: false,
 				auth: {
-			    	bearer: req.body.oauth_access_token
-			  	}
+					bearer: req.body.oauth_access_token
+				}
 			};
 			break;
 		default:
@@ -193,8 +196,8 @@ module.exports.apiReqSubmit = function(req, res) {
 						url: req.body.req_api_url,
 						strictSSL: false,
 						auth: {
-					    	bearer: req.body.oauth_access_token
-					  	},
+							bearer: req.body.oauth_access_token
+						},
 					  body: JSON.parse(req.body.req_body),
 					  json: true
 					};
@@ -205,8 +208,8 @@ module.exports.apiReqSubmit = function(req, res) {
 						url: req.body.req_api_url,
 						strictSSL: false,
 						auth: {
-					    	bearer: req.body.oauth_access_token
-					  	},
+							bearer: req.body.oauth_access_token
+						},
 					  headers: {
 					  	'Content-Type': req.body.req_content_type
 					  },
@@ -219,7 +222,7 @@ module.exports.apiReqSubmit = function(req, res) {
 		
 	console.log("---req_options: " + JSON.stringify(req_options));
 	
-	// Send the Token Request to APIM
+	// Send the API request to APIM
 	request(req_options, function (err, httpResponse, body) {
 		if (! err) {
 			console.log('response content-type: ' + httpResponse.headers['content-type']);
