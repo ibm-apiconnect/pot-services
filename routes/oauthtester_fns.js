@@ -185,7 +185,8 @@ module.exports.apiReqSubmit = function(req, res) {
 					bearer: req.body.oauth_access_token
 				},
 				headers: {
-					'X-IBM-Client-Id': global.sess.client_id
+					'X-IBM-Client-Id': global.sess.client_id,
+					'X-IBM-Client-Secret': global.sess.client_secret
 				}
 			};
 			break;
@@ -200,7 +201,8 @@ module.exports.apiReqSubmit = function(req, res) {
 							bearer: req.body.oauth_access_token
 						},
 						headers: {
-							'X-IBM-Client-Id': global.sess.client_id
+							'X-IBM-Client-Id': global.sess.client_id,
+							'X-IBM-Client-Secret': global.sess.client_secret
 						},
 					  body: JSON.parse(req.body.req_body),
 					  json: true
@@ -216,7 +218,8 @@ module.exports.apiReqSubmit = function(req, res) {
 						},
 					  headers: {
 					  	'Content-Type': req.body.req_content_type,
-							'X-IBM-Client-Id': global.sess.client_id
+							'X-IBM-Client-Id': global.sess.client_id,
+							'X-IBM-Client-Secret': global.sess.client_secret
 					  },
 					  body: req.body.req_body
 					};
