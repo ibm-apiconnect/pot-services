@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+	include header
+body
+	#layout
+		a(href="#menu" id="menuLink").menu-link
+			span
+		//#menu
+		//	div.pure-menu
+		//		a(href="/oauthtester").pure-menu-heading IBM
+		//		ul.pure-menu-list
+		//			li.pure-menu-item
+		//				a(href="/oauthtester/authz_code").pure-menu-link Authz Code
+		//			li.pure-menu-item
+		//				a(href="/oauthtester/client_cred").pure-menu-link Client Credentials
+		//			li.pure-menu-item
+		//				a(href="/oauthtester/ro_cred").pure-menu-link Resource Owner
+		//			li.pure-menu-item
+		//				a(href="/oauthtester/impl").pure-menu-link Implicit
+		#main
+			div.header
+				h1= header
+				h2= subHeader
+			block content
+	script(src='/js/ui.js')
