@@ -1,0 +1,59 @@
+extends layout
+
+block content
+	div.content
+		h2.content-subhead What is this?
+		p.line-breaks
+			| This tool is designed to assist a developer in obtaining an OAuth token from IBM API Connect
+			| via one of the following grant types:
+		ul
+			li Authorization Code
+			li Client Credentials (Confidential Client Type Only)
+			li Resource Owner Password
+			li Implicit (Public Client Type Only)
+		h2.content-subhead Getting started
+		p.line-breaks
+			| Before you begin, you will need to do some setup in the IBM API Management developer portal.
+			| Log into the portal and navigate to the Applications section.
+			| If you haven't yet created an application, do so by following the on-screen instructions.
+		p.line-breaks
+			| Save a copy of your 
+			span.text-code client_id
+			|  and 
+			span.text-code client_secret
+			|  to a text file.
+			| If you plan on testing the Authorization Code grant type, you will need to modify your application's Redirect URI.
+			| Set the 
+			span.text-code Redirect URI
+			|  for your application to:
+		ul
+			li
+				span.text-code https://services.think.ibm:1443/oauthtester/swapCode
+		p.line-breaks
+			| In the developer portal, navigate to the API you wish to test out.
+			| Take note of the 
+			span.text-code Authorization endpoint URL
+			| , 
+			span.text-code Token endpoint URL
+			|  and 
+			span.text-code Default scope
+			| .
+			| If you haven't registered your application to use a plan associated with the API, do so at this time.
+			| Once you have completed these steps, you're ready to test the OAuth solution.
+		h2.content-subhead Using the tool
+		p.line-breaks
+			| Select the desired grant type from the navigation panel on the left side of this page.
+			| Fill out the form for the grant type using the values saved in the previous steps.
+			| Once you have the OAuth Access Token, you can use it to invoke the API.
+	
+	style.
+		.line-breaks
+		{
+		white-space: pre;
+		}
+		.text-code
+		{
+		font-weight: bold;
+		color: #4089E5;
+		font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+		}

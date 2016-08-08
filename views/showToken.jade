@@ -1,0 +1,117 @@
+extends layout
+
+block content
+	div.content
+		if rspBody.access_token
+			h2.content-subhead Your access token
+			form.pure-form.pure-form-stacked
+				fieldset
+					if (rspBody.access_token != "checkHash")
+						textarea#tokenDisplay.pure-input-1.token-txtarea(readonly)= rspBody.access_token
+					else
+						textarea#tokenDisplay.pure-input-1.token-txtarea(readonly)
+			h2.content-subhead Send a test request
+			form(method='post' action='/apiReqSubmit').pure-form.pure-form-stacked
+				fieldset
+					div.pure-g
+						div.pure-u-1
+							label Method
+							if rspBody.req_method
+								select#req_method(name='req_method')
+									if rspBody.req_method == 'GET'
+										option(value='GET' selected) GET
+									else
+										option(value='GET') GET
+									if rspBody.req_method == 'POST'
+										option(value='POST' selected) POST
+									else
+										option(value='POST') POST
+									//-if rspBody.req_method == 'PUT'
+										//-option(value='PUT' selected) PUT
+									//-else
+										//-option(value='PUT') PUT
+									//-if rspBody.req_method == 'DELETE'
+										//-option(value='DELETE' selected) DELETE
+									//-else 
+										//-option(value='DELETE') DELETE
+							else
+								select#req_method(name='req_method')
+									option(value='GET') GET
+									option(value='POST') POST
+									//-option(value='PUT') PUT
+									//-option(value='DELETE') DELETE
+						div.pure-u-1
+							label Content Type
+							if rspBody.req_content_type
+								select#req_content_type(name='req_content_type')
+									if rspBody.req_content_type == 'application/json'
+										option(value='application/json' selected) application/json
+									else
+										option(value='application/json') application/json
+									if rspBody.req_content_type == 'application/xml'
+										option(value='application/xml' selected) application/xml
+									else
+										option(value='application/xml') application/xml
+							else
+								select#req_content_type(name='req_content_type' disabled)
+									option(value='application/json') application/json
+									option(value='application/xml') application/xml
+						div.pure-u-1
+							label API Request URL
+							if rspBody.req_api_url
+								input(type='text', name='req_api_url' value=rspBody.req_api_url).url-input
+							else
+								//-input(type='text', name='req_api_url' placeholder='https://<api_gateway>/<org>/<env>/<api>/<resource>?client_id=<client_id>').url-input
+								input(type='text', name='req_api_url' value=apiReqUrl).url-input
+						div.pure-u-1-2
+							label Request Body
+							if rspBody.req_body
+								textarea#req_body(name='req_body').req-txtarea= rspBody.req_body
+							else
+								textarea#req_body(name='req_body' disabled).req-txtarea
+						div.pure-u-1-2
+							label Response Body
+							if rspBody.rsp_body
+								textarea(name='rsp_body' readonly).rsp-txtarea= rspBody.rsp_body
+							else
+								textarea(name='rsp_body' readonly).rsp-txtarea
+					if (rspBody.access_token != "checkHash")
+						input#oauth_access_token(type='hidden',name='oauth_access_token',value=rspBody.access_token)
+					else
+						input#oauth_access_token(type='hidden',name='oauth_access_token')
+					input#btn_send_request(type='submit',value='Send Request').pure-button.pure-button-primary
+		else
+			p.line-breaks An error occurred: #{rspBody.error}
+			if rspBody.error_description
+				p Error description: #{rspBody.error_description}
+	style.
+		.token-txtarea
+		{
+		height: 6em;
+		}
+		.req-txtarea
+		{
+		height: 12em;
+		width: 95%;
+		}
+		.rsp-txtarea
+		{
+		height: 12em;
+		width: 100%;
+		}
+		.line-breaks
+		{
+		white-space: pre;
+		}
+		.url-input
+		{
+		width: 100%;
+		}
+	script.
+		if (window.location.hash) {
+			var hash = window.location.hash.replace("#","");
+			var hashVals = hash.split("&");
+			var accessToken = hashVals[0].replace("access_token=","");
+			document.getElementById("tokenDisplay").value = accessToken;
+			document.getElementById("oauth_access_token").value = accessToken;
+		}
