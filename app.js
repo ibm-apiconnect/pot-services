@@ -36,7 +36,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-global.sess;
+//global.sess;
 
 // set routes
 app.use('/auth', auth);

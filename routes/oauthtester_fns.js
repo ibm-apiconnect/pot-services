@@ -5,8 +5,7 @@
 *************************************************************************/
 
 var request = require('request');
-var querystring = require('querystring');
-var session = require('./oauthtester_session');
+//var session = require('./oauthtester_session');
 
 /*************************************************************************
 *
@@ -16,7 +15,7 @@ var session = require('./oauthtester_session');
 
 module.exports.displayForm = function (req, res) {
 	// Reset the session
-	session.clear(req);
+	req.session.destroy(function(err) {});
 
 	// Display the setup form
 	var options = {
@@ -31,25 +30,31 @@ module.exports.displayForm = function (req, res) {
 module.exports.clientSetupFormSubmit = function(req, res) {
 	
 	// Update the session variables with the req.body values
-	session.set(req);
+	var sess = req.session;
+	sess.oauth_token_url = req.body.oauth_token_url;
+	sess.ro_id = req.body.ro_id;
+	sess.ro_pwd = req.body.ro_pwd;
+	sess.client_id = req.body.client_id;
+	sess.client_secret = req.body.client_secret;
+	sess.req_scope = req.body.req_scope;
 
 	var tokenReqOptions = {
-		url: req.body.oauth_token_url,
+		url: sess.oauth_token_url,
 		strictSSL: false,
 		form: {
 			'grant_type' : 'password',
-			'username' : req.body.ro_id,
-			'password' : req.body.ro_pwd,
-			'scope' : req.body.req_scope
+			'username' : sess.ro_id,
+			'password' : sess.ro_pwd,
+			'scope' : sess.req_scope
 		},
 		auth: {
-			user: req.body.client_id,
-			pass: req.body.client_secret
+			user: sess.client_id,
+			pass: sess.client_secret
 		}
 	};
 
 	// Set up the api request URL basd on what we know, this will be used later
-	var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "inventory/items");
+	var apiReqUrl = sess.oauth_token_url.replace("oauth2/token", "inventory/items");
 
 	// Send the Token Request to API Connect Gateway
 	request.post(tokenReqOptions, function(err, httpResponse, body){
@@ -71,7 +76,9 @@ module.exports.clientSetupFormSubmit = function(req, res) {
 
 module.exports.apiReqSubmit = function(req, res) {
 
-	console.log("session = " + JSON.stringify(global.sess));
+	var sess = req.session;
+
+	console.log("session = " + JSON.stringify(sess));
 
 	console.log("setting request options");
 	
@@ -88,8 +95,8 @@ module.exports.apiReqSubmit = function(req, res) {
 					bearer: req.body.oauth_access_token
 				},
 				headers: {
-					'X-IBM-Client-Id': global.sess.client_id,
-					'X-IBM-Client-Secret': global.sess.client_secret
+					'X-IBM-Client-Id': sess.client_id,
+					'X-IBM-Client-Secret': sess.client_secret
 				}
 			};
 			break;
@@ -104,8 +111,8 @@ module.exports.apiReqSubmit = function(req, res) {
 							bearer: req.body.oauth_access_token
 						},
 						headers: {
-							'X-IBM-Client-Id': global.sess.client_id,
-							'X-IBM-Client-Secret': global.sess.client_secret
+							'X-IBM-Client-Id': sess.client_id,
+							'X-IBM-Client-Secret': sess.client_secret
 						},
 					  body: JSON.parse(req.body.req_body),
 					  json: true
@@ -121,8 +128,8 @@ module.exports.apiReqSubmit = function(req, res) {
 						},
 					  headers: {
 					  	'Content-Type': req.body.req_content_type,
-							'X-IBM-Client-Id': global.sess.client_id,
-							'X-IBM-Client-Secret': global.sess.client_secret
+							'X-IBM-Client-Id': sess.client_id,
+							'X-IBM-Client-Secret': sess.client_secret
 					  },
 					  body: req.body.req_body
 					};
