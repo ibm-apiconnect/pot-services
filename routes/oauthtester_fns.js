@@ -15,7 +15,9 @@ var request = require('request');
 
 module.exports.displayForm = function (req, res) {
 	// Reset the session
-	req.session.destroy(function(err) {});
+	req.session.regenerate(function(err) {
+		if (err) console.log("Session regeneration error: " + err);
+	});
 
 	// Display the setup form
 	var options = {
