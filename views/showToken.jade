@@ -26,20 +26,10 @@ block content
 										option(value='POST' selected) POST
 									else
 										option(value='POST') POST
-									//-if rspBody.req_method == 'PUT'
-										//-option(value='PUT' selected) PUT
-									//-else
-										//-option(value='PUT') PUT
-									//-if rspBody.req_method == 'DELETE'
-										//-option(value='DELETE' selected) DELETE
-									//-else 
-										//-option(value='DELETE') DELETE
 							else
 								select#req_method(name='req_method')
 									option(value='GET') GET
 									option(value='POST') POST
-									//-option(value='PUT') PUT
-									//-option(value='DELETE') DELETE
 						div.pure-u-1
 							label Content Type
 							if rspBody.req_content_type
@@ -61,7 +51,6 @@ block content
 							if rspBody.req_api_url
 								input(type='text', name='req_api_url' value=rspBody.req_api_url).url-input
 							else
-								//-input(type='text', name='req_api_url' placeholder='https://<api_gateway>/<org>/<env>/<api>/<resource>?client_id=<client_id>').url-input
 								input(type='text', name='req_api_url' value=apiReqUrl).url-input
 						div.pure-u-1-2
 							label Request Body

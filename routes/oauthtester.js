@@ -14,10 +14,8 @@ var router = express.Router();
  *
  *************************************************************************/
 
-router.get('/', oauth.displayIndex);
+router.get('/', oauth.displayForm);
 router.post('/clientSetupFormSubmit', oauth.clientSetupFormSubmit);
 router.post('/apiReqSubmit', oauth.apiReqSubmit);
-router.get('/swapCode', oauth.swapCode);
-router.get('/:page', oauth.displayForm);
 
 module.exports = router;

@@ -6,9 +6,7 @@
 		req_body = document.getElementById('req_body'),
 		req_content_type = document.getElementById('req_content_type'),
 		req_method = document.getElementById('req_method'),
-		btn_send_request = document.getElementById('btn_send_request'),
-		client_type = document.getElementById('client_type'),
-		client_secret = document.getElementById('client_secret');
+		btn_send_request = document.getElementById('btn_send_request');
 	
 	function toggleClass(element, className) {
 		var classes = element.className.split(/\s+/),
@@ -73,15 +71,6 @@
 			}
 		};
 	}
-	
-	if (client_type) {
-		client_type.onchange = function (e) {
-			if (client_type.value == 'Confidential') {
-				client_secret.hidden = false;
-			} else {
-				client_secret.hidden = true;
-			}
-		};
-	}
+
 }
 (this, this.document));

@@ -10,167 +10,68 @@ var session = require('./oauthtester_session');
 
 /*************************************************************************
 *
-* Local Functions
-*
-*************************************************************************/
-
-function buildRoAuthUrl (clientId, redirectUri, reqScope, grantType) {
-
-	var url_params = {
-		client_id: clientId,
-		redirect_uri: redirectUri,
-		scope: reqScope
-	};
-	
-	url_params.response_type = ((grantType === "authz_code") ? 'code' : 'token');
-	
-	return querystring.stringify(url_params);
-}
-
-function formatTokenRequest (tokenUrl, roId, roPwd, clientType, grantType, clientId, clientSecret, scope, redirectUri, authCode) {
-	console.log("formattTokenRequest function called");
-	
-	// Format the request params
-	var post_data;
-	
-	switch (grantType) {
-		case 'client_cred':
-			post_data = {
-				'grant_type' : 'client_credentials',
-				'scope' : scope
-			};
-			break;
-		case 'ro_cred':
-			post_data = {
-				'grant_type' : 'password',
-				'username' : roId,
-				'password' : roPwd,
-				'scope' : scope
-			};
-			break;
-		case 'authz_code':
-			post_data = {
-				'grant_type' : 'authorization_code',
-				'redirect_uri' : redirectUri,
-				'code' : authCode
-			};
-			break;
-	}
-	
-	if (clientType === "Public") {
-		post_data.client_id = clientId;
-	}
-	
-	// Set the request options
-	var post_options = {
-		url: tokenUrl,
-		strictSSL: false,
-		form: post_data
-	};
-	
-	if (clientType === "Confidential") {
-		post_options.auth = {
-    	user: clientId,
-    	pass: clientSecret
-    };
-	}
-	
-	return post_options;
-}
-
-/*************************************************************************
-*
 * Exported Functions
 *
 *************************************************************************/
 
-module.exports.displayIndex = function (req, res) {
-	// // Reset the session
-	// session.clear(req);
-	//
-	// // Show the index page
-	// res.render('index.jade', {header: 'IBM API Connect', subHeader: 'OAuth Token Tool'});
-
-	res.redirect('../oauthtester/ro_cred');
-};
-
 module.exports.displayForm = function (req, res) {
 	// Reset the session
 	session.clear(req);
-	
-	var page = req.params.page;
-	
-	switch (page) {
-		case 'authz_code':
-			res.render('clientSetupForm.jade', {header: 'Authorization Code', subHeader: 'Grant Type', formType: 'authz_code'});
-			break;
-		case 'client_cred':
-			res.render('clientSetupForm.jade', {header: 'Client Credentials', subHeader: 'Grant Type', formType: 'client_cred'});
-			break;
-		case 'ro_cred':
-			res.render('clientSetupForm.jade', {header: 'Resource Owner Password', subHeader: 'Grant Type', formType: 'ro_cred'});
-			break;
-		case 'impl':
-			res.render('clientSetupForm.jade', {header: 'Implicit', subHeader: 'Grant Type', formType: 'implicit'});
-			break;
-		default:
-			res.render('index.jade', {header: 'IBM API Connect', subHeader: 'OAuth Token Tool'});
-			break;
-	}
+
+	// Display the setup form
+	var options = {
+		header: 'Resource Owner Password',
+		subHeader: 'Grant Type',
+		formType: 'ro_cred'
+	};
+
+	res.render('clientSetupForm.jade', options);
 };
 
 module.exports.clientSetupFormSubmit = function(req, res) {
 	
 	// Update the session variables with the req.body values
 	session.set(req);
-	
-	// Check client type
-	if (req.body.grant_type == 'authz_code' || req.body.grant_type == 'implicit') {
-		
-		// Call a function which sets up the auth link
-		var resourceOwnerAuthLink = req.body.oauth_authz_url + '?' + buildRoAuthUrl(req.body.client_id, req.body.redirect_uri, req.body.req_scope, req.body.grant_type);
-		console.log("resourceOwnerAuthLink: " + resourceOwnerAuthLink);
-		
-		// Redirect the resource owner to the OAuth login page
-		res.redirect(301, resourceOwnerAuthLink);
-		
-	} else if (req.body.grant_type == 'client_cred' || req.body.grant_type == 'ro_cred') {
-		
-		// Format the token request parameters
-		var tokenReqOptions = formatTokenRequest(
-					req.body.oauth_token_url,
-					req.body.ro_id,
-					req.body.ro_pwd,
-					req.body.client_type,
-					req.body.grant_type,
-					req.body.client_id,
-					req.body.client_secret,
-					req.body.req_scope);
-					
-		// Set up the api request URL basd on what we know
-		//var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "<resource>?client_id=") + req.body.client_id;
-		var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "inventory/items");
-					
-		// Send the Token Request to APIM
-		request.post(tokenReqOptions, function(err,httpResponse,body){
-			if (!err) {
-				console.log('response body: ' + body);
-				console.log('the token is: ' + JSON.parse(body).access_token);
-				
-				// render it in a new page
-				res.render('showToken.jade', {
-					header: 'Access Token', 
-					rspBody: JSON.parse(body),
-					apiReqUrl: apiReqUrl
-				});
-			} else {
-				console.log('--- err: \n' + err);
-			}
-		});
-	}
+
+	var tokenReqOptions = {
+		url: req.body.oauth_token_url,
+		strictSSL: false,
+		form: {
+			'grant_type' : 'password',
+			'username' : req.body.ro_id,
+			'password' : req.body.ro_pwd,
+			'scope' : req.body.req_scope
+		},
+		auth: {
+			user: req.body.client_id,
+			pass: req.body.client_secret
+		}
+	};
+
+	// Set up the api request URL basd on what we know, this will be used later
+	var apiReqUrl = req.body.oauth_token_url.replace("oauth2/token", "inventory/items");
+
+	// Send the Token Request to API Connect Gateway
+	request.post(tokenReqOptions, function(err, httpResponse, body){
+		if (!err) {
+			console.log('response body: ' + body);
+			console.log('the token is: ' + JSON.parse(body).access_token);
+
+			// render it in a new page
+			res.render('showToken.jade', {
+				header: 'Access Token',
+				rspBody: JSON.parse(body),
+				apiReqUrl: apiReqUrl
+			});
+		} else {
+			console.log('--- err: \n' + err);
+		}
+	});
 };
 
 module.exports.apiReqSubmit = function(req, res) {
+
+	console.log("session = " + JSON.stringify(global.sess));
 
 	console.log("setting request options");
 	
@@ -269,82 +170,4 @@ module.exports.apiReqSubmit = function(req, res) {
 			console.log('--- err: \n' + err);
 		}
 	});
-};
-
-module.exports.swapCode = function(req, res) {
-	var authCode = req.query.code;
-	var error = req.query.error;
-	var renderOptions;
-	
-	if (authCode) {
-		// Got a an Auth Code from the Server
-		console.log('swapCode method invoked, code is: ' + authCode);
-	
-		console.log('session values: ' + JSON.stringify(global.sess));
-		
-		var tokenReqOptions = formatTokenRequest(
-					global.sess.oauth_token_url,
-					global.sess.ro_id,
-					global.sess.ro_pwd,
-					global.sess.client_type,
-					global.sess.grant_type,
-					global.sess.client_id,
-					global.sess.client_secret,
-					global.sess.req_scope,
-					global.sess.redirect_uri,
-					authCode);
-					
-		console.log('tokenReqOptions: ' + JSON.stringify(tokenReqOptions));
-		
-		// Send the Token Request to APIM
-		request.post(tokenReqOptions, function(err,httpResponse,body){
-			if (!err) {
-				console.log('response body: ' + body);
-				console.log('the token is: ' + JSON.parse(body).access_token);
-				
-				// render it in a new page
-				var apiReqUrl = global.sess.oauth_token_url.replace("oauth/token", "<resource>?client_id=") + global.sess.client_id;
-				var renderOptions = {
-					header: 'Access Token',
-					rspBody: JSON.parse(body),
-					apiReqUrl: apiReqUrl
-				};
-				res.render('showToken.jade', renderOptions);
-			} else {
-				console.log('--- err: \n' + err);
-			}
-		});
-		
-	}
-	else if (error) {
-		// Request was denied by the resource owner
-		
-		var errorDetails = {
-			error: req.query.error,
-			error_description: req.query.error_description
-		};
-		
-		renderOptions = {
-			header: 'Access Token',
-			rspBody: errorDetails
-		};
-		res.render('showToken.jade', renderOptions);
-	}
-	else {
-	
-		// Since there's no auth code or error, hopefully we got an access token via implicit grant, render it in a new page
-		
-		var apiReqUrl = global.sess.oauth_authz_url.replace("oauth/authorize", "<resource>?client_id=") + global.sess.client_id;
-		
-		renderOptions = {
-			header: 'Access Token',
-			rspBody: {
-				access_token: "checkHash"
-			},
-			apiReqUrl: apiReqUrl
-		};
-		res.render('showToken.jade', renderOptions);
-	
-	}
-	
 };
