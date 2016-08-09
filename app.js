@@ -31,7 +31,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // additions for oauthtester
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
 app.use(session({
+  genid: function(req) {
+    return guid();
+  },
   secret: 'ibmApim4me2',
   resave: false,
   saveUninitialized: true
