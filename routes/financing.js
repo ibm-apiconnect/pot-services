@@ -17,7 +17,7 @@ router.route('/calculate')
   
     parseString(req.body, parseOptions, function (err, result) {
       console.log("XML as JSON:\n" + JSON.stringify(result));
-      var soapBody = result['soapenv:Body'];
+      var soapBody = result['soap-env:Body'];
       var financingRequest = soapBody['ser:financingRequest'];
       var amount = financingRequest['ser:amount'];
       var duration = financingRequest['ser:duration'];
@@ -37,7 +37,7 @@ router.route('/calculate')
   
       res.set('content-type', 'application/xml');
       res.set('accept', 'application/xml');
-      res.send("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://services.think.ibm\"><soapenv:Body><ser:financingResult><ser:paymentAmount>" + monthlyPaymentAmount + "</ser:paymentAmount></ser:financingResult></soapenv:Body></soapenv:Envelope>");
+      res.send("<soap-env:Envelope xmlns:soap-env=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://thinkibm-services.mybluemix.net\"><soap-env:Body><ser:financingResult><ser:paymentAmount>" + monthlyPaymentAmount + "</ser:paymentAmount></ser:financingResult></soap-env:Body></soap-env:Envelope>");
     });
   
   })

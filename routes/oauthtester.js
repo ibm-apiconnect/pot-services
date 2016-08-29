@@ -1,21 +1,9 @@
-/*************************************************************************
- *
- * Module Requirements
- *
- *************************************************************************/
-
 var express = require('express');
-var oauth = require('./oauthtester_fns');
 var router = express.Router();
 
-/*************************************************************************
- *
- * Module Routes
- *
- *************************************************************************/
-
-router.get('/', oauth.displayForm);
-router.post('/clientSetupFormSubmit', oauth.clientSetupFormSubmit);
-router.post('/apiReqSubmit', oauth.apiReqSubmit);
+/* GET oauthtester page. */
+router.get('/', function(req, res, next) {
+  res.render('index.html', { title: 'API Connect PoT OAuth Tester' });
+});
 
 module.exports = router;
