@@ -7,6 +7,14 @@ var wsdl = "";
 /* Calculate Financing Rate from SOAP input */
 router.route('/calculate')
   .get(function (req, res) {
+
+    var options = {
+      root: './public',
+      headers: {
+        'Content-Type': 'application/wsdl+xml'
+      }
+    };
+
     res.sendFile('financing.wsdl', {root: './public'});
   })
   .post(function (req, res) {
@@ -49,7 +57,5 @@ router.route('/calculate')
   .head(function (req, res) {
     res.send(200);
   });
-
-
 
 module.exports = router;
