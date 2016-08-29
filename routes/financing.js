@@ -2,8 +2,13 @@ var express = require('express');
 var router = express.Router();
 var xml2js = require('xml2js');
 
+var wsdl = "";
+
 /* Calculate Financing Rate from SOAP input */
 router.route('/calculate')
+  .get(function (req, res) {
+    res.sendFile('financing.wsdl', {root: './public'});
+  })
   .post(function (req, res) {
     console.log(req.body);
   
@@ -44,5 +49,7 @@ router.route('/calculate')
   .head(function (req, res) {
     res.send(200);
   });
+
+
 
 module.exports = router;
