@@ -15,7 +15,7 @@ router.route('/calculate')
       }
     };
 
-    res.sendFile('financing.wsdl', {root: './public'});
+    res.sendFile('financing.wsdl', options);
   })
   .post(function (req, res) {
     console.log(req.body);
