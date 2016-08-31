@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
     "start": "node ./bin/www"
+  },
+  "devDependencies": {
+    "bower": "^1.7.7"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
