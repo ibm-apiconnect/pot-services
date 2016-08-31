@@ -30,12 +30,21 @@ angular
         console.log("init accessToken value: " + localStorageService.get("accessToken"));
   
         /* Pre-Set Form Values */
+        // $scope.config = {
+        //   tokenUrl: "https://api.us.apiconnect.ibmcloud.com/malleyusibmcom-dev/sb/oauth2/token",
+        //   roId: "john",
+        //   roPwd: "smith",
+        //   clientId: "2f62af95-f285-4470-b050-384655f5adc8",
+        //   clientSecret: "kB2hK5wL0iE1vB5qF3dT7kY3eA0hL4oX2fM1nB5xQ8iC0uA0cY",
+        //   scope: "inventory"
+        // };
+
         $scope.config = {
-          tokenUrl: "https://api.us.apiconnect.ibmcloud.com/malleyusibmcom-dev/sb/oauth2/token",
+          tokenUrl: "https://<<API GATEWAY>>/<<ORG>>/sb/oauth2/token",
           roId: "john",
           roPwd: "smith",
-          clientId: "2f62af95-f285-4470-b050-384655f5adc8",
-          clientSecret: "kB2hK5wL0iE1vB5qF3dT7kY3eA0hL4oX2fM1nB5xQ8iC0uA0cY",
+          clientId: "<<CLIENT ID>>",
+          clientSecret: "<<CLIENT SECRET>>",
           scope: "inventory"
         };
   

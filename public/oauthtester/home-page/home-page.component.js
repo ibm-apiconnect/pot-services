@@ -19,7 +19,8 @@ angular
 
           } else if (configured()) {
 
-            login2();
+            login();
+            //login2();
 
           } else {
 
@@ -82,7 +83,7 @@ angular
         function login2() {
           console.log("Manually setting OAuth Token");
 
-          var manualToken = "AAEkMmY2MmFmOTUtZjI4NS00NDcwLWIwNTAtMzg0NjU1ZjVhZGM45kYIv-IQ8gDcwipExlmQFvnI-lStiV5BtBYnnS-wPDek8aohLNpQXlPXm73RwMoJ3ZoKEZXDFD51xMvprk3rUg";
+          var manualToken = "<< REPLACE TOKEN >>";
 
           localStorageService.set("accessToken", manualToken);
           $scope.accessTokenArea = manualToken;
