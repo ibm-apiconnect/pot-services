@@ -30,11 +30,12 @@ router.route('/calculate')
   
     parseString(req.body, parseOptions, function (err, result) {
       console.log("XML as JSON:\n" + JSON.stringify(result));
-      var soapBody = result['soap-env:Body'];
-      var financingRequest = soapBody['ser:financingRequest'];
-      var amount = financingRequest['ser:amount'];
-      var duration = financingRequest['ser:duration'];
-      var rate = financingRequest['ser:rate'];
+      var soapBody = result['soap-env:Body'] || result['soapenv:Body'];
+      var ns = JSON.stringify(soapBody).substring(2).split(':')[0];
+      var financingRequest = soapBody[ns + ':financingRequest'];
+      var amount = financingRequest[ns + ':amount'];
+      var duration = financingRequest[ns + ':duration'];
+      var rate = financingRequest[ns + ':rate'];
       
       console.log("amount: " + amount);
       console.log("duration: " + duration);
