@@ -3,27 +3,27 @@
    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
    xmlns:ser="http://thinkibm-services.mybluemix.net"
    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-   xmlns:s="http://www.w3.org/2001/XMLSchema"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
    xmlns="http://schemas.xmlsoap.org/wsdl/">
    <wsdl:types>
-      <s:schema targetNamespace="http://thinkibm-services.mybluemix.net" elementFormDefault="qualified">
-         <s:element name="financingRequest">
-            <s:complexType>
-               <s:sequence>
-                  <s:element name="amount" type="s:string"/>
-                  <s:element name="duration" type="s:string"/>
-                  <s:element name="rate" type="s:string"/>
-               </s:sequence>
-            </s:complexType>
-         </s:element>
-         <s:element name="financingResult">
-            <s:complexType>
-               <s:sequence>
-                  <s:element name="paymentAmount" type="s:string"/>
-               </s:sequence>
-            </s:complexType>
-         </s:element>
-      </s:schema>
+      <xs:schema targetNamespace="http://thinkibm-services.mybluemix.net" elementFormDefault="qualified">
+         <xs:element name="financingRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="amount" type="xs:decimal"/>
+                  <xs:element name="duration" type="xs:integer"/>
+                  <xs:element name="rate" type="xs:decimal"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="financingResult">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="paymentAmount" type="xs:decimal"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
    </wsdl:types>
    <wsdl:message name="financingInput">
       <wsdl:part name="body" element="ser:financingRequest"/>
