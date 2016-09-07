@@ -53,7 +53,7 @@ angular
           console.log("setting config");
 
           localStorageService.set("tokenUrl", config.tokenUrl);
-          localStorageService.set("apiUrl", config.tokenUrl.replace("oauth2/token", "inventory/items/:id"));
+          localStorageService.set("apiUrl", config.tokenUrl.replace("oauth2/token", "inventory/items/:id?filter[limit]=2&filter[fields][description]=false"));
           localStorageService.set("roId", config.roId);
           localStorageService.set("roPwd", config.roPwd);
           localStorageService.set("clientId", config.clientId);

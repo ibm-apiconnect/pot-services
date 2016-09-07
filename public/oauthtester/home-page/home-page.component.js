@@ -20,7 +20,6 @@ angular
           } else if (configured()) {
 
             login();
-            //login2();
 
           } else {
 
@@ -68,6 +67,7 @@ angular
                 localStorageService.set("accessToken", tokenRsp.access_token);
                 $scope.accessTokenArea = tokenRsp.access_token;
                 usSpinnerService.stop('spinner');
+                callApi();
               },
               function(err) {
                 // error
@@ -78,18 +78,6 @@ angular
               }
             );
 
-        }
-
-        function login2() {
-          console.log("Manually setting OAuth Token");
-
-          var manualToken = "<< REPLACE TOKEN >>";
-
-          localStorageService.set("accessToken", manualToken);
-          $scope.accessTokenArea = manualToken;
-          usSpinnerService.stop('tokenSpinner');
-
-          callApi();
         }
 
         function callApi() {
