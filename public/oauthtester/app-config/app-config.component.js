@@ -40,11 +40,11 @@ angular
         // };
 
         $scope.config = {
-          tokenUrl: "https://<<API GATEWAY>>/<<ORG>>/sb/oauth2/token",
+          tokenUrl: "YOUR TOKEN URL",
           roId: "john",
           roPwd: "smith",
-          clientId: "<<CLIENT ID>>",
-          clientSecret: "<<CLIENT SECRET>>",
+          clientId: "YOUR CLIENT ID",
+          clientSecret: "YOUR CLIENT SECRET",
           scope: "inventory"
         };
   
@@ -53,7 +53,7 @@ angular
           console.log("setting config");
 
           localStorageService.set("tokenUrl", config.tokenUrl);
-          localStorageService.set("apiUrl", config.tokenUrl.replace("oauth2/token", "inventory/items/:id?filter[limit]=2&filter[fields][description]=false"));
+          localStorageService.set("apiUrl", config.tokenUrl.replace("oauth2/token", "inventory/items?filter[limit]=2&filter[fields][description]=false"));
           localStorageService.set("roId", config.roId);
           localStorageService.set("roPwd", config.roPwd);
           localStorageService.set("clientId", config.clientId);
