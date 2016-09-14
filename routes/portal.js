@@ -1,18 +1,22 @@
 var express = require('express');
 var router = express.Router();
-var xml2js = require('xml2js');
-
-var theme = "";
 
 /* Get portal-theme.zip */
-router.route('/theme.zip')
+router.route('/*')
   .get(function (req, res) {
 
-    var options = {
-      root: './public/files/portal'
-    };
+    var path = req.params[0] ? req.params[0] : null;
 
-    res.sendFile('theme.zip', options);
+    if (path) {
+      var options = {
+        root: './public/files/portal'
+      };
+
+      res.sendFile(path, options);
+    } else {
+      res.status(404).end();
+    }
+
   })
   .head(function (req, res) {
     res.send(200);
