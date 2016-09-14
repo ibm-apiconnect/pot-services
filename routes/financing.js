@@ -9,7 +9,7 @@ router.route('/calculate')
   .get(function (req, res) {
 
     var options = {
-      root: './public',
+      root: './public/files/financing',
       headers: {
         'Content-Type': 'application/wsdl+xml'
       }

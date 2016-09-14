@@ -10,6 +10,7 @@ var auth = require('./routes/auth');
 var financing = require('./routes/financing');
 var shipping = require('./routes/shipping');
 var oauthtester = require('./routes/oauthtester');
+var portal = require('./routes/portal');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/auth', auth);
 app.use('/financing', financing);
 app.use('/shipping', shipping);
 app.use('/oauthtester', oauthtester);
+app.use('/portal', portal);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
