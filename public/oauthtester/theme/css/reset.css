@@ -216,6 +216,15 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdff0d8', end
 	border-color: #9acfea;
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0)
 }
+.alert-troubleshooting {
+	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fcf8e3), to(#f8efc0));
+	background-image: -webkit-linear-gradient(top, #fcf8e3, 0%, #f8efc0, 100%);
+	background-image: -moz-linear-gradient(top, #fcf8e3 0, #f8efc0 100%);
+	background-image: linear-gradient(to bottom, #fcf8e3 0, #f8efc0 100%);
+	background-repeat: repeat-x;
+	border-color: #f5e79e;
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fff8efc0', GradientType=0)
+}
 .alert-warning {
 	background-image: -webkit-gradient(linear, left 0, left 100%, from(#fcf8e3), to(#f8efc0));
 	background-image: -webkit-linear-gradient(top, #fcf8e3, 0%, #f8efc0, 100%);
