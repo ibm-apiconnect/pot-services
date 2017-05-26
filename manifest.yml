@@ -1,6 +1,7 @@
 applications:
 - services:
   - Monitoring and Analytics
+  - Availability Monitoring
   disk_quota: 1024M
   host: thinkibm-services
   name: ThinkIBM Services
