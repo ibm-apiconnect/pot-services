@@ -6,7 +6,7 @@ applications:
   name: ThinkIBM Services
   path: .
   domain: mybluemix.net
-  instances: 8
+  instances: 4
   memory: 512M
 env:
   NODE_ENV: bluemix
